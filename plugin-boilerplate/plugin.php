@@ -29,6 +29,13 @@ License:
 // TODO: rename this class to a proper name for your plugin
 class PluginName {
 
+	var $settings;
+    $this->settings = array(
+            'version' => '1.0.0'
+    );		
+
+
+
 	/*--------------------------------------------*
 	 * Constructor
 	 *--------------------------------------------*/
@@ -68,7 +75,62 @@ class PluginName {
 	    add_action( 'TODO', array( $this, 'action_method_name' ) );
 	    add_filter( 'TODO', array( $this, 'filter_method_name' ) );
 
+        //only show in admin
+        if( is_admin() )
+        {
+            add_action( 'admin_menu' , array($this,'my_plugin_admin_menu' ));
+            add_action( 'admin_notices', array($this,'my_plugin_admin_notices') );
+        }	    
+
 	} // end constructor
+
+
+
+	/*
+	take a look at http://codex.wordpress.org/Function_Reference/add_menu_page
+	*/
+	public function my_plugin_admin_menu() {
+
+		//decide between add_menu_page and add_options_page below
+
+		$hook_suffix = add_menu_page( __('My Plugin Menu Item', 'plugin-name-locale' ), __('My Plugin', 'plugin-name-locale' ), 'manage_options', '', array($this,'my_plugin_main_page'), plugins_url('universal-uploader/img/uuploader.png'), 100 );
+		//$hook_suffix = 	add_options_page( __('My Plugin Menu Item', 'plugin-name-locale'), __('My Plugin', 'plugin-name-locale' ), 'manage_options', 'my-unique-identifier', 'my_plugin_options' );
+		add_action( 'load-' . $hook_suffix , array($this,'my_plugin_load_function') );
+	}
+
+	public function my_plugin_main_page() {
+		if ( !current_user_can( 'manage_options' ) )  {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+		echo '<div class="wrap">';
+		echo '<p>Here is where the form would go if I actually had options.</p>';
+		echo '</div>';
+	}
+
+	public function my_plugin_load_function() {
+		// Current admin page is the options page for our plugin, so do not display the notice
+		// (remove the action responsible for this)	
+		remove_action( 'admin_notices', array($this,'my_plugin_admin_notices'));
+	}
+
+	public function my_plugin_admin_notices() {
+		echo "<div id='notice' class='updated fade'><p>My Plugin is not configured yet. Please do it now.</p></div>\n";
+	}
+
+	public function get_setting( $index ) 
+	{
+		$result = false;
+		if (isset($this->settings[$index])) 
+		{
+			$result = $this->settings[$index];
+		} 
+		else 
+		{
+			$result = $this->settings;
+		}
+
+		return $result;
+	}	
 
 	/**
 	 * Fired when the plugin is activated.
