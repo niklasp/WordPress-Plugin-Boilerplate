@@ -27,6 +27,7 @@ License:
 */
 
 // TODO: rename this class to a proper name for your plugin
+if ( !class_exists('PluginName' )) :  
 class PluginName {
 
 	var $settings;	
@@ -241,4 +242,18 @@ class PluginName {
 } // end class
 
 // TODO:	Update the instantiation call of your plugin to the name given at the class definition
-$plugin_name = new PluginName();
+function my_plugin()
+{
+        global $my_plugin;
+        
+        if( !isset($my_plugin) )
+        {
+                $my_plugin = new PluginName();
+        }
+        
+        return $my_plugin;
+}
+
+my_plugin();
+
+endif; // class_exists bracket
