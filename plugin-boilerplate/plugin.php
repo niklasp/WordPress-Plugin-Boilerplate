@@ -29,12 +29,7 @@ License:
 // TODO: rename this class to a proper name for your plugin
 class PluginName {
 
-	var $settings;
-    $this->settings = array(
-            'version' => '1.0.0'
-    );		
-
-
+	var $settings;	
 
 	/*--------------------------------------------*
 	 * Constructor
@@ -44,6 +39,10 @@ class PluginName {
 	 * Initializes the plugin by setting localization, filters, and administration functions.
 	 */
 	function __construct() {
+
+	    $this->settings = array(
+	            'version' => '1.0.0'
+	    );			
 
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'plugin_textdomain' ) );
@@ -59,7 +58,6 @@ class PluginName {
 		// Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
-		register_uninstall_hook( __FILE__, array( $this, 'uninstall' ) );
 
 	    /*
 	     * TODO:
