@@ -6,6 +6,7 @@ The Disqus Comment Widget displays recent/popular comments from Disqus. It fetch
 
 * Get Recent Comments from Disqus
 * Get Popular Comments from Disqus
+* Ajax gets and displays Comments
 * No Shitty Ads
 * Simple Style and easily adaptable
 * fully-based on the WordPress [Plugin API](http://codex.wordpress.org/Plugin_API)
